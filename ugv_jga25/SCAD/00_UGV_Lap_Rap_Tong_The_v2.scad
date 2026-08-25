@@ -940,11 +940,6 @@ module Module_5_Hinged_Roof_Lid() {
                             }
                         }
                     }
-
-                    // Đế cảm biến LiDAR
-                    translate([0, y_nose_tip - 45.0, chassis_top_z + lid_thick]) {
-                        cylinder(d = 76.0, h = 2.5);
-                    }
                 }
 
                 // Lỗ chốt bản lề
@@ -956,12 +951,6 @@ module Module_5_Hinged_Roof_Lid() {
                 // Hốc tay nắm mở nắp
                 translate([W_belly/2 - 15.0, box_y_center, chassis_top_z + lid_thick/2])
                     cube([16.0, 48.0, lid_thick + 2.0], center = true);
-
-                // 4 Lỗ ốc M3 gắn LiDAR
-                for (ang = [45, 135, 225, 315]) {
-                    translate([28.0 * cos(ang), (y_nose_tip - 45.0) + 28.0 * sin(ang), chassis_top_z - 1])
-                        cylinder(d = 3.4, h = lid_thick + 6.0);
-                }
             }
         }
 
