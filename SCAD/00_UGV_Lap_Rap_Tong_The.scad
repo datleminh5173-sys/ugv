@@ -176,13 +176,10 @@ module Motor_Bracket_Gray() {
 
             // [E] QUẢ CẦU LỒI KHỚP PHUỘC (MALE BALL STUD D=10mm)
             translate([0, -13.0, bracket_thick]) {
-                cylinder(d1 = 12.0, d2 = 6.0, h = 4.0);
-                cylinder(d = 6.0, h = 8.0);
+                cylinder(d1 = 12.0, d2 = 5.2, h = 4.0);
+                cylinder(d = 5.2, h = 8.0);
                 translate([0, 0, 8.0])
                     sphere(d = 10.0);
-                translate([0, 6, 3])
-                    rotate([45, 0, 0])
-                    cube([5.0, 4, 6], center=true);
             }
         }
 
@@ -632,13 +629,10 @@ module Integrated_Chassis_Mount_Station() {
 
             // [E] QUẢ CẦU LỒI KHỚP PHUỘC TRÊN KHUNG XE (MALE BALL STUD D=10mm)
             translate([0, ear_posY, chassis_top_z - bracket_thick]) {
-                cylinder(d1 = 12.0, d2 = 6.0, h = 4.0);
-                translate([0, 0, -4.0]) cylinder(d = 6.0, h = 4.0);
+                cylinder(d1 = 12.0, d2 = 5.2, h = 4.0);
+                translate([0, 0, -4.0]) cylinder(d = 5.2, h = 4.0);
                 translate([0, 0, -8.0])
                     sphere(d = 10.0);
-                translate([0, -5, -4])
-                    rotate([-45, 0, 0])
-                    cube([5.0, 4, 6], center=true);
             }
 
             // Gân tăng cứng hông (dày 3.5mm)

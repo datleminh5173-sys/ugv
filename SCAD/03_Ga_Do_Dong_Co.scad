@@ -107,16 +107,12 @@ module Motor_Bracket_Printable() {
 
             // [E] QUẢ CẦU LỒI KHỚP PHUỘC (MALE BALL STUD D=10mm)
             translate([0, -13.0, bracket_thick]) {
-                // Cổ trụ đệm gia cố chân cầu
-                cylinder(d1 = 12.0, d2 = 6.0, h = 4.0);
-                cylinder(d = 6.0, h = 8.0);
-                // Quả cầu lồi D=10.0mm
+                // Chân đế tròn mở rộng D=12mm vuốt côn mượt lên cổ D=5.2mm
+                cylinder(d1 = 12.0, d2 = 5.2, h = 4.0);
+                cylinder(d = 5.2, h = 8.0);
+                // Quả cầu lồi D=10.0mm tròn láng
                 translate([0, 0, 8.0])
                     sphere(d = 10.0);
-                // Gân đỡ chéo tăng cứng chân cầu
-                translate([0, 6, 3])
-                    rotate([45, 0, 0])
-                    cube([5.0, 4, 6], center=true);
             }
         }
 

@@ -111,16 +111,12 @@ module Integrated_Chassis_Mount_Station() {
 
             // [E] QUẢ CẦU LỒI KHỚP PHUỘC TRÊN KHUNG XE (MALE BALL STUD D=10mm)
             translate([0, ear_posY, chassis_top_z - bracket_thick]) {
-                // Cổ trụ đệm gia cố
-                cylinder(d1 = 12.0, d2 = 6.0, h = 4.0);
-                translate([0, 0, -4.0]) cylinder(d = 6.0, h = 4.0);
-                // Quả cầu lồi D=10.0mm
+                // Chân đế tròn mở rộng D=12mm vuốt côn mượt lên cổ D=5.2mm
+                cylinder(d1 = 12.0, d2 = 5.2, h = 4.0);
+                translate([0, 0, -4.0]) cylinder(d = 5.2, h = 4.0);
+                // Quả cầu lồi D=10.0mm tròn láng
                 translate([0, 0, -8.0])
                     sphere(d = 10.0);
-                // Gân đỡ chéo tăng cứng
-                translate([0, -5, -4])
-                    rotate([-45, 0, 0])
-                    cube([5.0, 4, 6], center=true);
             }
 
             // Gân tăng cứng hông
