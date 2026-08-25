@@ -3,7 +3,7 @@
 // BẢN NÂNG CẤP: LỖ LUỒN DÂY HÌNH VIÊN THUỐC (PILL-SHAPED SLOT) KÉO DÀI XUỐNG DƯỚI
 // THA HỒ LUỒN CẢ ĐẦU JACK CẮM JST-XH / DUPONT MÀ KHÔNG CẦN CẮT THÁO DÂY
 // ==============================================================================
-$fn = 36;
+$fn = 24;
 
 // [THÔNG SỐ ĐÓNG/MỞ NẮP NÓC XE THEO TRỤC X]
 roof_open_angle = 0.0;   // Góc mở nắp nóc lật sang bên (0 = Đóng kín, 45 = Mở nghiêng, 80 = Mở đứng)
@@ -225,9 +225,9 @@ module Motor_Bracket_Gray() {
 
 // 5. MODULE PHUỘC PITON KHỚP CẦU ĐÀN HỒI (SNAP-FIT BALL SOCKET)
 module Spring_Piston_SnapFit(total_L = piston_total_L) {
-    collar_od_val   = 28.0;
+    collar_od_val   = 30.0;
     collar_thick_val= 4.0;
-    cup_rim_h_val   = 2.5;
+    cup_rim_h_val   = 2.8;
     cylinder_od_val = 13.0;
     cylinder_bore_val= 8.5;
     piston_rod_val  = 7.8;
@@ -258,23 +258,29 @@ module Spring_Piston_SnapFit(total_L = piston_total_L) {
                     cylinder(d=collar_od_val, h=cup_rim_h_val);
                 }
                 translate([0, 0, -0.1])
-                    cylinder(d=25.4, h=cup_rim_h_val + 1.0);
+                    cylinder(d=27.6, h=cup_rim_h_val + 1.0);
             }
         }
 
+        // Thân vỏ xilanh rỗng lòng bậc 2 tầng giảm ma sát
         difference() {
             union() {
                 translate([0, 0, 8.0]) cylinder(d=cylinder_od_val, h=cyl_h_val);
                 translate([0, 0, 8.0]) cylinder(d1=15.0, d2=cylinder_od_val, h=3.0);
             }
-            translate([0, 0, 7.9]) cylinder(d=cylinder_bore_val, h=cyl_h_val + 3.0);
+            // Tầng 1: Lòng khoang rộng D=9.4mm bên trong (mũ ngàm trượt êm không chạm thành)
+            translate([0, 0, 7.9]) cylinder(d=9.4, h=cyl_h_val - 3.5 + 0.1);
+            // Tầng 2: Vành miệng hẹp D=8.2mm ở đỉnh miệng để hãm mũ ngàm
+            translate([0, 0, 8.0 + cyl_h_val - 3.5]) cylinder(d=8.2, h=3.6);
+            // Vát mép miệng
+            translate([0, 0, 8.0 + cyl_h_val - 1.5]) cylinder(d1=8.2, d2=10.0, h=1.6);
             for (wz = [18.0 : 12.0 : 8.0 + cyl_h_val - 8.0]) {
                 translate([0, 0, wz]) cube([cylinder_od_val + 4.0, 4.0, 5.0], center=true);
             }
         }
     }
 
-    // [B] Cụm chén cầu lõm trên & Ty piton màu xám có đĩa chén ôm lò xo
+    // [B] Cụm chén cầu lõm trên & Ty piton màu xám có đĩa chén ôm lò xo & mũ ngàm tự khóa
     color([0.7, 0.72, 0.76]) {
         translate([0, 0, total_L]) {
             rotate([180, 0, 0]) {
@@ -298,49 +304,74 @@ module Spring_Piston_SnapFit(total_L = piston_total_L) {
                             cylinder(d=collar_od_val, h=cup_rim_h_val);
                         }
                         translate([0, 0, -0.1])
-                            cylinder(d=25.4, h=cup_rim_h_val + 1.0);
+                            cylinder(d=27.6, h=cup_rim_h_val + 1.0);
                     }
                 }
 
-                translate([0, 0, 8.0])
-                    cylinder(d=piston_rod_val, h=rod_h_val);
-                translate([0, 0, 8.0])
-                    cylinder(d1=13.0, d2=piston_rod_val, h=3.0);
+                difference() {
+                    union() {
+                        translate([0, 0, 8.0])
+                            cylinder(d=7.6, h=rod_h_val - 4.5);
+                        translate([0, 0, 8.0 + rod_h_val - 4.5]) {
+                            cylinder(d=8.8, h=1.0);
+                            translate([0, 0, 1.0])
+                                cylinder(d1=8.8, d2=5.6, h=3.5);
+                        }
+                        translate([0, 0, 8.0])
+                            cylinder(d1=13.0, d2=7.6, h=3.0);
+                    }
+                    translate([0, 0, 8.0 + rod_h_val - 8.0]) {
+                        cube([1.2, 11.0, 16.0], center=true);
+                        cube([11.0, 1.2, 16.0], center=true);
+                    }
+                }
             }
         }
     }
 
-    // [C] Lò xo siêu dày Heavy-Duty D=6.2mm với 2 đầu phẳng tì khít 100%
+    // [C] Lò xo siêu dày Heavy-Duty D=6.8mm với 2 đầu mài phẳng tịt 100%
     color([0.9, 0.15, 0.15]) {
         spring_start_z = 8.0;
         spring_end_z   = total_L - 8.0;
         spring_height  = spring_end_z - spring_start_z;
-        turns          = 5.5;
+        turns          = 5.0;
         steps          = 80;
-        r_mean         = 9.4;
-        wire_d         = 6.2; // Dây lò xo dày 6.2mm
+        r_mean         = 10.2;
+        wire_d         = 6.8; // Dây lò xo dày 6.8mm
 
-        // Vòng đáy phẳng tiếp xúc 360 độ vào đĩa dưới
-        translate([0, 0, spring_start_z + wire_d/2 - 0.5])
-            rotate_extrude($fn=36) translate([r_mean, 0, 0]) circle(d=wire_d, $fn=16);
+        difference() {
+            union() {
+                // Vòng đáy tròn phẳng dưới đáy
+                translate([0, 0, spring_start_z + wire_d/2])
+                    rotate_extrude($fn=48) translate([r_mean, 0, 0]) circle(d=wire_d, $fn=24);
 
-        // Các vòng xoắn
-        for (i = [0 : steps - 1]) {
-            t1 = i / steps;
-            t2 = (i + 1) / steps;
-            z1 = spring_start_z + t1 * spring_height;
-            z2 = spring_start_z + t2 * spring_height;
-            a1 = t1 * turns * 360;
-            a2 = t2 * turns * 360;
-            hull() {
-                translate([r_mean * cos(a1), r_mean * sin(a1), z1]) sphere(d=wire_d, $fn=12);
-                translate([r_mean * cos(a2), r_mean * sin(a2), z2]) sphere(d=wire_d, $fn=12);
+                // Các vòng xoắn thân chính
+                for (i = [0 : steps - 1]) {
+                    t1 = i / steps;
+                    t2 = (i + 1) / steps;
+                    z1 = spring_start_z + wire_d/2 + t1 * (spring_height - wire_d);
+                    z2 = spring_start_z + wire_d/2 + t2 * (spring_height - wire_d);
+                    a1 = t1 * turns * 360;
+                    a2 = t2 * turns * 360;
+                    hull() {
+                        translate([r_mean * cos(a1), r_mean * sin(a1), z1]) sphere(d=wire_d, $fn=20);
+                        translate([r_mean * cos(a2), r_mean * sin(a2), z2]) sphere(d=wire_d, $fn=20);
+                    }
+                }
+
+                // Vòng đỉnh tròn phẳng trên cùng
+                translate([0, 0, spring_end_z - wire_d/2])
+                    rotate_extrude($fn=48) translate([r_mean, 0, 0]) circle(d=wire_d, $fn=24);
             }
-        }
 
-        // Vòng đỉnh phẳng tiếp xúc 360 độ vào đĩa trên
-        translate([0, 0, spring_end_z - wire_d/2 + 0.5])
-            rotate_extrude($fn=36) translate([r_mean, 0, 0]) circle(d=wire_d, $fn=16);
+            // Cắt phẳng mặt đáy
+            translate([0, 0, spring_start_z - 15.0])
+                cube([60.0, 60.0, 30.0], center=true);
+
+            // Cắt phẳng mặt đỉnh
+            translate([0, 0, spring_end_z + 15.0])
+                cube([60.0, 60.0, 30.0], center=true);
+        }
     }
 }
 
