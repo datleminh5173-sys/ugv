@@ -6,7 +6,7 @@
 // ==============================================================================
 $fn = 36;
 
-module Honeycomb_Airless_Wheel_Printable(OD = 88.0, width = 32.0) {
+module Honeycomb_Airless_Wheel_Printable(OD = 96.0, width = 34.0) {
     rim_d       = 46.0;
     tire_od     = OD;
     n_cells     = 18;
@@ -75,12 +75,12 @@ module Honeycomb_Airless_Wheel_Printable(OD = 88.0, width = 32.0) {
         // Vòng lỗ tổ ong ngoài (18 lỗ lục giác D=7.8mm)
         for (i = [0 : n_cells - 1]) {
             rotate([0, 0, i * (360 / n_cells) + 10.0])
-                translate([35.8, 0, -1])
+                translate([38.0, 0, -1])
                 rotate([0, 0, 30])
-                cylinder(r=(7.8 / cos(30)) / 2, h=width + 2, $fn=6);
+                cylinder(r=(8.0 / cos(30)) / 2, h=width + 2, $fn=6);
         }
     }
 }
 
 // ĐẶT NẰM TRÊN MẶT BÀN IN Z = 0
-Honeycomb_Airless_Wheel_Printable(OD = 88.0, width = 32.0);
+Honeycomb_Airless_Wheel_Printable(OD = 96.0, width = 34.0);
