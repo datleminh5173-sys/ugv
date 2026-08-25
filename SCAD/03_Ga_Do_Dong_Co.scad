@@ -19,6 +19,17 @@ motor_center_z = -16.5;  // Tâm trục động cơ JGA25 chuẩn
 bracket_R      = 15.0;   // Bán kính ngoài vòm đỡ (R=15mm)
 side_wall_H    = 34.0;   // Chiều cao vách bên
 side_wall_z0   = -14.0;  // Đáy vách bên
+arm_L          = 70.0;
+foot_L         = 32.0;
+chassis_top_z  = 125.0;
+
+piston_p1_y    = -13.0;
+piston_p1_z    = bracket_thick + 8.0;
+piston_p2_y    = -base_L - arm_L + foot_L/2;
+piston_p2_z    = chassis_top_z - bracket_thick - 8.0;
+piston_dy      = piston_p2_y - piston_p1_y;
+piston_dz      = piston_p2_z - piston_p1_z;
+piston_angle   = atan2(abs(piston_dy), piston_dz); // Góc nghiêng của phuộc
 pin_top_z      = 14.0;   // Vị trí tâm chốt M3 trên
 pin_bottom_z   = -8.0;   // Vị trí tâm chốt M3 dưới
 
@@ -105,14 +116,25 @@ module Motor_Bracket_Printable() {
                 }
             }
 
-            // [E] QUẢ CẦU LỒI KHỚP PHUỘC (MALE BALL STUD D=10mm)
-            translate([0, -13.0, bracket_thick]) {
-                // Chân đế tròn mở rộng D=12mm vuốt côn mượt lên cổ D=5.2mm
-                cylinder(d1 = 12.0, d2 = 5.2, h = 4.0);
-                cylinder(d = 5.2, h = 8.0);
-                // Quả cầu lồi D=10.0mm tròn láng
-                translate([0, 0, 8.0])
-                    sphere(d = 10.0);
+            // [E] QUẢ CẦU LỒI NGHIÊNG ĐỒNG TRỤC THEO HƯỚNG PHUỘC (ANGLED BALL STUD)
+            // Quả cầu tròn láng D=10.0mm
+            translate([0, piston_p1_y, piston_p1_z])
+                sphere(d = 10.0);
+
+            // Cổ trụ thon D=5.0mm nghiêng theo hướng phuộc
+            translate([0, piston_p1_y, piston_p1_z])
+                rotate([piston_angle, 0, 0])
+                translate([0, 0, -3.5])
+                cylinder(d = 5.0, h = 4.0, center = true);
+
+            // Chân đế vuốt côn liền khối từ mặt phẳng gá lên cổ cầu (KHÔNG LƠ LỬNG)
+            hull() {
+                translate([0, piston_p1_y, bracket_thick])
+                    cylinder(d = 12.0, h = 0.5);
+                translate([0, piston_p1_y, piston_p1_z])
+                    rotate([piston_angle, 0, 0])
+                    translate([0, 0, -4.5])
+                    cylinder(d = 5.6, h = 1.0, center = true);
             }
         }
 

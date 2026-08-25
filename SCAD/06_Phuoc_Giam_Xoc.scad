@@ -10,7 +10,7 @@
 // ==============================================================================
 $fn = 48;
 
-part_select = "both"; // "both" = In 2 chi tiết piton, "spring" = In lò xo dày, "all" = In cả 3
+part_select = "all"; // "all" = In cả 3 chi tiết (Xilanh + Ty piton + Lò xo), "both" = 2 chi tiết piton, "spring" = Chỉ lò xo
 
 bracket_thick  = 3.5;
 base_L         = 25.0;
@@ -148,21 +148,21 @@ module Heavy_Duty_Coil_Spring(total_L = piston_total_L) {
     spring_end_z   = total_L - 8.0;
     spring_height  = spring_end_z - spring_start_z;
     turns          = 5.5;
-    steps          = 100;
+    steps          = 64;
     r_mean         = 9.4;
     wire_d         = 6.2; // Dây lò xo dày 6.2mm siêu cứng cáp
 
     union() {
         // Vòng đế tròn phẳng dưới đáy (tì khít 100% vào đáy đĩa xilanh)
-        translate([0, 0, spring_start_z + wire_d/2 - 1.0])
-            rotate_extrude()
+        translate([0, 0, spring_start_z + wire_d/2 - 0.8])
+            rotate_extrude($fn=48)
             translate([r_mean, 0, 0])
-            circle(d=wire_d);
+            circle(d=wire_d, $fn=20);
 
-        // Các vòng xoắn chính giữa
+        // Các vòng xoắn chính giữa liên kết liên tục chồng mép chống hở
         for (i = [0 : steps - 1]) {
-            t1 = i / steps;
-            t2 = (i + 1) / steps;
+            t1 = (i - 0.1) / steps;
+            t2 = (i + 1.1) / steps;
             z1 = spring_start_z + t1 * spring_height;
             z2 = spring_start_z + t2 * spring_height;
             a1 = t1 * turns * 360;
@@ -174,10 +174,10 @@ module Heavy_Duty_Coil_Spring(total_L = piston_total_L) {
         }
 
         // Vòng đỉnh tròn phẳng trên cùng (tì khít 100% vào đáy đĩa ty piton)
-        translate([0, 0, spring_end_z - wire_d/2 + 1.0])
-            rotate_extrude()
+        translate([0, 0, spring_end_z - wire_d/2 + 0.8])
+            rotate_extrude($fn=48)
             translate([r_mean, 0, 0])
-            circle(d=wire_d);
+            circle(d=wire_d, $fn=20);
     }
 }
 
@@ -193,7 +193,7 @@ if (part_select == "both") {
 } else if (part_select == "spring") {
     Heavy_Duty_Coil_Spring();
 } else if (part_select == "all") {
-    translate([-26.0, 0, 7.0]) Shock_Lower_Cylinder();
-    translate([0, 0, 7.0])     Shock_Upper_Piston();
-    translate([26.0, 0, 0])    Heavy_Duty_Coil_Spring();
+    translate([-28.0, 0, 7.0]) Shock_Lower_Cylinder();
+    translate([0, 0, 7.0])      Shock_Upper_Piston();
+    translate([28.0, 0, -8.0])  Heavy_Duty_Coil_Spring();
 }

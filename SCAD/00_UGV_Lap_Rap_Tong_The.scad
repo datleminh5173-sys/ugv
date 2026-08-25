@@ -174,12 +174,25 @@ module Motor_Bracket_Gray() {
                 }
             }
 
-            // [E] QUẢ CẦU LỒI KHỚP PHUỘC (MALE BALL STUD D=10mm)
-            translate([0, -13.0, bracket_thick]) {
-                cylinder(d1 = 12.0, d2 = 5.2, h = 4.0);
-                cylinder(d = 5.2, h = 8.0);
-                translate([0, 0, 8.0])
-                    sphere(d = 10.0);
+            // [E] QUẢ CẦU LỒI NGHIÊNG ĐỒNG TRỤC THEO HƯỚNG PHUỘC (ANGLED BALL STUD)
+            // Quả cầu tròn láng D=10.0mm
+            translate([0, piston_p1_y, piston_p1_z])
+                sphere(d = 10.0);
+
+            // Cổ trụ thon D=5.0mm nghiêng theo hướng phuộc
+            translate([0, piston_p1_y, piston_p1_z])
+                rotate([piston_angle, 0, 0])
+                translate([0, 0, -3.5])
+                cylinder(d = 5.0, h = 4.0, center = true);
+
+            // Chân đế vuốt côn liền khối từ mặt phẳng gá lên cổ cầu (KHÔNG LƠ LỬNG)
+            hull() {
+                translate([0, piston_p1_y, bracket_thick])
+                    cylinder(d = 12.0, h = 0.5);
+                translate([0, piston_p1_y, piston_p1_z])
+                    rotate([piston_angle, 0, 0])
+                    translate([0, 0, -4.5])
+                    cylinder(d = 5.6, h = 1.0, center = true);
             }
         }
 
@@ -627,12 +640,25 @@ module Integrated_Chassis_Mount_Station() {
                 }
             }
 
-            // [E] QUẢ CẦU LỒI KHỚP PHUỘC TRÊN KHUNG XE (MALE BALL STUD D=10mm)
-            translate([0, ear_posY, chassis_top_z - bracket_thick]) {
-                cylinder(d1 = 12.0, d2 = 5.2, h = 4.0);
-                translate([0, 0, -4.0]) cylinder(d = 5.2, h = 4.0);
-                translate([0, 0, -8.0])
-                    sphere(d = 10.0);
+            // [E] QUẢ CẦU LỒI TRÊN KHUNG XE NGHIÊNG ĐỒNG TRỤC THEO HƯỚNG PHUỘC
+            // Quả cầu tròn láng D=10.0mm
+            translate([0, ear_posY, piston_p2_z])
+                sphere(d = 10.0);
+
+            // Cổ trụ thon D=5.0mm nghiêng theo hướng phuộc
+            translate([0, ear_posY, piston_p2_z])
+                rotate([piston_angle, 0, 0])
+                translate([0, 0, 3.5])
+                cylinder(d = 5.0, h = 4.0, center = true);
+
+            // Chân đế vuốt côn liền khối từ trần gá xuống cổ cầu (KHÔNG LƠ LỬNG)
+            hull() {
+                translate([0, ear_posY, chassis_top_z - bracket_thick])
+                    cylinder(d = 12.0, h = 0.5, center = true);
+                translate([0, ear_posY, piston_p2_z])
+                    rotate([piston_angle, 0, 0])
+                    translate([0, 0, 4.5])
+                    cylinder(d = 5.6, h = 1.0, center = true);
             }
 
             // Gân tăng cứng hông (dày 3.5mm)

@@ -18,6 +18,13 @@ pin_top_z      = 14.0;   // Vị trí tâm lỗ M3 trên
 pin_bottom_z   = -8.0;   // Vị trí tâm lỗ M3 dưới
 motor_center_z = -16.5;  // Tâm trục động cơ JGA25 chuẩn
 arm_L          = 70.0;
+piston_p1_y    = -13.0;
+piston_p1_z    = bracket_thick + 8.0;
+piston_p2_y    = -base_L - arm_L + foot_L/2;
+piston_p2_z    = chassis_top_z - bracket_thick - 8.0;
+piston_dy      = piston_p2_y - piston_p1_y;
+piston_dz      = piston_p2_z - piston_p1_z;
+piston_angle   = atan2(abs(piston_dy), piston_dz);
 
 L_belly       = 140.0;
 y_front_mount = -base_L - arm_L;             // -95mm
@@ -109,14 +116,25 @@ module Integrated_Chassis_Mount_Station() {
                 }
             }
 
-            // [E] QUẢ CẦU LỒI KHỚP PHUỘC TRÊN KHUNG XE (MALE BALL STUD D=10mm)
-            translate([0, ear_posY, chassis_top_z - bracket_thick]) {
-                // Chân đế tròn mở rộng D=12mm vuốt côn mượt lên cổ D=5.2mm
-                cylinder(d1 = 12.0, d2 = 5.2, h = 4.0);
-                translate([0, 0, -4.0]) cylinder(d = 5.2, h = 4.0);
-                // Quả cầu lồi D=10.0mm tròn láng
-                translate([0, 0, -8.0])
-                    sphere(d = 10.0);
+            // [E] QUẢ CẦU LỒI TRÊN KHUNG XE NGHIÊNG ĐỒNG TRỤC THEO HƯỚNG PHUỘC
+            // Quả cầu tròn láng D=10.0mm
+            translate([0, ear_posY, piston_p2_z])
+                sphere(d = 10.0);
+
+            // Cổ trụ thon D=5.0mm nghiêng theo hướng phuộc
+            translate([0, ear_posY, piston_p2_z])
+                rotate([piston_angle, 0, 0])
+                translate([0, 0, 3.5])
+                cylinder(d = 5.0, h = 4.0, center = true);
+
+            // Chân đế vuốt côn liền khối từ trần gá xuống cổ cầu (KHÔNG LƠ LỬNG)
+            hull() {
+                translate([0, ear_posY, chassis_top_z - bracket_thick])
+                    cylinder(d = 12.0, h = 0.5, center = true);
+                translate([0, ear_posY, piston_p2_z])
+                    rotate([piston_angle, 0, 0])
+                    translate([0, 0, 4.5])
+                    cylinder(d = 5.6, h = 1.0, center = true);
             }
 
             // Gân tăng cứng hông
