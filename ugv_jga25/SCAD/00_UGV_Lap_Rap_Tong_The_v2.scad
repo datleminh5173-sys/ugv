@@ -1,12 +1,16 @@
 // ==============================================================================
-// 00. XE ROBOT TỰ HÀNH UGV 4 BÁNH (4WD) - BẢN V2 CHIA MODULE TỪNG KHỐI
+// 00. XE ROBOT TỰ HÀNH UGV 4 BÁNH (4WD) - BẢN V2 CƠ CẤU LẮP GHÉP CƠ KHÍ HOÀN CHỈNH
 // ==============================================================================
-// MỤC ĐÍCH THIẾT KẾ V2 MODULAR:
-// - Thân xe nguyên bản (364mm x 320mm) quá khổ so với bàn in 320x390 / 256x256.
-// - Bản V2 giữ NGUYÊN 100% KÍCH THƯỚC VÀ KIỂU DÁNG CƠ KHÍ của bản chuẩn, nhưng
-//   được CHIA THÀNH 5 MODULE ĐỘC LẬP ghép nối bằng mộng định vị & ốc M3.
-// - Mỗi module có MÀU SẮC RIÊNG BIỆT (Multi-Color Architecture), kích thước tối đa
-//   chỉ < 220mm, in vừa vặn dễ dàng trên bàn in 320x390, 300x300 hay 256x256!
+// CÁC HỆ THỐNG CƠ CẤU LIÊN KẾT CƠ KHÍ CHUYÊN DỤNG (MECHANICAL JOINTS):
+// 1. MỘNG TRƯỢT MANG CÁ ĐỨNG (VERTICAL DOVETAIL INTERLOCKING RAILS):
+//    - 4 Cụm mộng đuôi én góc 60 độ chịu lực cắt và chống vặn xoắn tuyệt đối.
+// 2. MẶT BÍCH KÈM HỐC TÁN LỤC GIÁC ÂM CHÌM (CAPTIVE M3 HEX NUT FLANGES):
+//    - 8 Hốc tán M3 tiêu chuẩn (S=5.5mm) đúc sẵn bên trong thành vách,
+//      cho phép siết bulông M3 cứng như một khối đúc liền mà không bị tuột.
+// 3. RAY TRƯỢT GÀI VÈ GIÁP HÔNG (SLIDE-IN FENDER RAILS & SNAP-STOPS):
+//    - 4 Vè chắn giáp hông trượt gài theo rãnh mang cá ngang + chốt khóa M3.
+// 4. BẢN LÈ KÉP CÓ TRỤC ĐỊNH HƯỚNG & KHÓA GÀI BẬT NHANH (SNAP-LOCK LATCH):
+//    - Nắp nóc xe có ngàm khóa đàn hồi dạng mỏ vịt tự khóa khi đóng nắp.
 // ==============================================================================
 
 $fn = 32;
@@ -14,26 +18,27 @@ $fn = 32;
 // [1] BỘ TÙY CHỌN HIỂN THỊ (CUSTOMIZER)
 part_select = "all_assembled";
 // Các lựa chọn:
-// "all_assembled"        : Toàn bộ xe hoàn chỉnh ghép màu đa sắc
-// "exploded_modules"    : Bóc tách từng module (Exploded View)
-// "print_chassis_parts" : Trải phẳng 3 module thân xe trên bàn in Z=0
-// "module_1_belly"      : [M1] Khoang bụng trung tâm (Màu Xám Đen)
-// "module_2_front"      : [M2] Mũi xe & Tháp treo trước (Màu Cam)
-// "module_3_rear"       : [M3] Đuôi xe & Tháp treo sau (Màu Cam)
-// "module_4_fenders"    : [M4] 4 Tấm vè giáp nóc hông (Màu Gunmetal)
-// "module_5_roof"       : [M5] Nắp nóc xe mở bản lề (Màu Xám Titan)
+// "all_assembled"        : Toàn bộ xe lắp ghép hoàn thiện (kèm hiển thị ốc bulông)
+// "exploded_modules"    : Bóc tách từng module rời (thấy rõ rãnh mang cá & hốc tán)
+// "print_chassis_parts" : Trải phẳng các module thân xe trên bàn in Z=0
+// "module_1_belly"      : [M1] Khoang bụng trung tâm (Có mộng mang cá + Hốc tán)
+// "module_2_front"      : [M2] Mũi trước & Tháp treo trước (Có rãnh âm mang cá)
+// "module_3_rear"       : [M3] Đuôi sau & Tháp treo sau (Có rãnh âm mang cá)
+// "module_4_fenders"    : [M4] 4 Tấm vè giáp nóc hông (Có rãnh trượt gài)
+// "module_5_roof"       : [M5] Nắp nóc xe mở bản lề & Ngàm khóa
 // "module_6_suspension" : [M6] 1 Cụm treo & Bánh xe độc lập
 
 roof_open_angle = 0.0;   // Góc mở nắp nóc (0 = Đóng, 45 = Mở nghiêng, 80 = Mở đứng)
-exploded_gap    = 45.0;  // Khoảng cách bóc tách khi chọn "exploded_modules"
+exploded_gap    = 55.0;  // Khoảng cách bóc tách khi chọn "exploded_modules"
+show_fasteners  = true;  // Hiển thị bulông thép M3 & tán lục giác liên kết
 
-// [2] THÔNG SỐ HỆ THỐNG TREO & KHỚP CẦU (GIỮ CHUẨN 100% NGUYÊN BẢN)
+// [2] THÔNG SỐ CƠ BẢN HỆ TREO (CHUẨN 100% NGUYÊN BẢN)
 bracket_thick  = 3.5;    // Độ dày tấm gá (3.5mm)
 bracket_W      = 37.0;   // Chiều rộng gá xám (37mm)
 base_L         = 25.0;   // Chiều dài bản gá
 hole_screw_d   = 3.4;    // Lỗ ốc M3 (D=3.4mm)
 motor_center_z = -16.5;  // Tâm trục động cơ JGA25
-bracket_R      = 15.0;   // Bán kính bo đáy gá motor
+bracket_R      = 15.0;   // Bán kính vòm gá motor
 
 side_wall_H    = 34.0;   
 side_wall_z0   = -14.0;  
@@ -41,10 +46,10 @@ side_wall_z0   = -14.0;
 pin_top_z      = 14.0;
 pin_bottom_z   = -8.0;
 
-arm_L          = 70.0;   // Khoảng cách tâm thanh đòn (70mm)
+arm_L          = 70.0;   // Chiều dài thanh đòn (70mm)
 arm_thick      = 5.0;    // Độ dày thanh đòn gia cố (5.0mm)
 chassis_top_z  = 125.0;  // Chiều cao đỉnh vách nóc (125mm)
-foot_L         = 32.0;   // Chiều dài tấm ngắn chữ L nhô ra
+foot_L         = 32.0;   // Chiều dài tai ngắn chữ L
 
 piston_p1_y    = -13.0;
 piston_p1_z    = bracket_thick + 8.0;
@@ -58,7 +63,7 @@ piston_dz      = piston_p2_z - piston_p1_z;
 piston_total_L = sqrt(piston_dy * piston_dy + piston_dz * piston_dz);
 piston_angle   = atan2(abs(piston_dy), piston_dz);
 
-// [3] KÍCH THƯỚC HÌNH HỌC KHUNG XE CHIA MODULE
+// [3] KÍCH THƯỚC HÌNH HỌC KHUNG THÂN XE CHIA MODULE
 L_belly        = 140.0;                       // Chiều dài khoang bụng giữa
 y_front_mount  = -base_L - arm_L;             // Vách trước bụng: Y = -95.0mm
 y_rear_mount   = y_front_mount - L_belly;     // Vách sau bụng:  Y = -235.0mm
@@ -73,8 +78,8 @@ y_nose_tip     = y_front_mount + L_nose;      // Đỉnh mũi xe = -10.0mm
 y_tail_tip     = y_rear_mount - L_tail;       // Đáy đuôi xe = -320.0mm
 
 box_H          = chassis_top_z - side_wall_z0;// Chiều cao thùng xe = 109.0mm
-wall_t         = 3.2;                         // Độ dày thành vách hộp (3.2mm in chắc chắn)
-flange_t       = 4.0;                         // Độ dày mặt bích nối module
+wall_t         = 3.2;                         // Độ dày thành vách hộp (3.2mm)
+flange_t       = 4.5;                         // Độ dày mặt bích nối (4.5mm)
 
 // Đa giác 2D đáy thùng xe chuẩn
 chassis_outer_poly = [
@@ -93,7 +98,67 @@ chassis_outer_poly = [
 ];
 
 // ==============================================================================
-// CÁC MODULE CON HỆ TREO (SUSPENSION HARDWARE)
+// CÁC THƯ VIỆN CƠ CẤU MỘNG MANG CÁ & HỐC TÁN LỤC GIÁC (JOINERY PRIMITIVES)
+// ==============================================================================
+
+// Mộng mang cá đực (Male Dovetail Tenon)
+module Dovetail_Tenon_Vertical(w_base = 12.0, w_tip = 18.0, depth = 6.0, height = 70.0) {
+    linear_extrude(height = height, center = true) {
+        polygon(points = [
+            [-w_base/2, 0],
+            [ w_base/2, 0],
+            [ w_tip/2,  depth],
+            [-w_tip/2,  depth]
+        ]);
+    }
+}
+
+// Rãnh mang cá cái (Female Dovetail Mortise với khe hở trượt 0.3mm)
+module Dovetail_Mortise_Vertical(w_base = 12.6, w_tip = 18.6, depth = 6.4, height = 75.0) {
+    linear_extrude(height = height, center = true) {
+        polygon(points = [
+            [-w_base/2, -0.1],
+            [ w_base/2, -0.1],
+            [ w_tip/2,  depth],
+            [-w_tip/2,  depth]
+        ]);
+    }
+}
+
+// Hốc nhét tán lục giác M3 (Captive M3 Nut Pocket S=5.5mm, H=2.8mm)
+module M3_Nut_Pocket_Slot(depth = 12.0) {
+    union() {
+        // Lỗ xuyên bulông M3
+        cylinder(d = hole_screw_d, h = depth + 10.0, center = true);
+        // Hốc tán lục giác
+        rotate([0, 0, 30])
+            cylinder(r = (5.6 / cos(30)) / 2, h = 3.0, center = true, $fn = 6);
+        // Rãnh trượt dẫn hướng thả tán vào từ trên
+        translate([0, 5.0, 0])
+            cube([5.7, 10.0, 3.0], center = true);
+    }
+}
+
+// Mô hình bulông lục giác chìm M3 bằng thép
+module Render_M3_Bolt(length = 16.0) {
+    color([0.85, 0.88, 0.92]) {
+        // Đầu trụ lục giác chìm
+        difference() {
+            cylinder(d = 5.5, h = 3.0);
+            translate([0, 0, 1.2]) cylinder(r = (2.6/cos(30))/2, h = 2.0, $fn=6);
+        }
+        // Thân ren
+        translate([0, 0, -length]) cylinder(d = 3.0, h = length);
+    }
+    // Tán M3
+    color([0.75, 0.78, 0.82]) {
+        translate([0, 0, -length + 1.5])
+            cylinder(r = (5.5/cos(30))/2, h = 2.4, center=true, $fn=6);
+    }
+}
+
+// ==============================================================================
+// CHI TIẾT HỆ TREO & BÁNH XE
 // ==============================================================================
 
 module Snap_Pin_Stud() {
@@ -351,7 +416,7 @@ module Spring_Piston_SnapFit_V2(total_L = piston_total_L) {
     }
 }
 
-// BÁNH XE TỔ ONG D=96mm & ĐỘNG CƠ JGA25
+// BÁNH XE TỔ ONG D=96mm
 module Honeycomb_Wheel_Assembly(OD = 96.0, width = 34.0) {
     rim_d   = 48.0;
     tire_od = OD;
@@ -398,7 +463,6 @@ module Honeycomb_Wheel_Assembly(OD = 96.0, width = 34.0) {
 module Single_Suspension_Corner_Module() {
     Motor_Bracket_Gray();
 
-    // Động cơ JGA25
     color([0.84, 0.86, 0.88]) {
         translate([0, -19.0, motor_center_z])
             rotate([-90, 0, 0]) {
@@ -407,12 +471,10 @@ module Single_Suspension_Corner_Module() {
             }
     }
 
-    // Bánh xe
     translate([0, 13.5, motor_center_z])
         rotate([-90, 0, 0])
         Honeycomb_Wheel_Assembly(OD = 96.0, width = 34.0);
 
-    // 4 Thanh đòn
     for (side_x = [-1, 1]) {
         arm_posX = side_x * (bracket_W/2 + arm_thick/2 + 0.8);
         translate([arm_posX, -base_L/2, pin_top_z])
@@ -421,17 +483,12 @@ module Single_Suspension_Corner_Module() {
             rotate([0, 90, 0]) Suspension_Link_Arm_Green(length = arm_L);
     }
 
-    // Phuộc
     translate([0, piston_p1_y, piston_p1_z])
         rotate([piston_angle, 0, 0])
         Spring_Piston_SnapFit_V2(total_L = piston_total_L);
 }
 
-// ==============================================================================
-// 5 MODULE THÂN XE ĐỘC LẬP (MODULAR CHASSIS SYSTEM)
-// ==============================================================================
-
-// Cụm Gá Tháp Treo trên khung xe
+// Gá Tháp Treo trên khung
 module Chassis_Mount_Station_Geometry() {
     ear_posY     = -base_L/2 + foot_L/2;
     gusset_thick = 3.5;
@@ -481,32 +538,35 @@ module Chassis_Mount_Station_Geometry() {
     }
 }
 
+// ==============================================================================
+// 5 MODULE THÂN XE V2 VỚI CƠ CẤU LẮP GHÉP MỘNG MANG CÁ & HỐC TÁN M3
+// ==============================================================================
+
 // ------------------------------------------------------------------------------
 // [MODULE 1] KHOANG BỤNG TRUNG TÂM (CENTRAL BELLY HULL)
-// Kích thước: 350mm x 140mm x 109mm (Khớp hoàn hảo bàn in 320x390 xoay dọc)
+// Kích thước: 350mm x 140mm x 109mm (Khớp bàn in 320x390 xoay dọc)
 // Màu: Xám Đen Nhám Slate [0.22, 0.24, 0.28]
+// Cơ cấu: 4 Mộng Đực Mang Cá Đứng + 8 Hốc Tán Lục Giác M3 Đúc Sẵn
 // ------------------------------------------------------------------------------
 module Module_1_Central_Belly_Hull() {
     color([0.22, 0.24, 0.28]) {
         difference() {
             union() {
                 // Thùng chính bụng xe
-                translate([0, box_y_center, (chassis_top_z + side_wall_z0)/2]) {
+                translate([0, box_y_center, (chassis_top_z + side_wall_z0)/2])
                     cube([W_belly, L_belly, box_H], center = true);
-                }
 
                 // Gờ miệng trên
-                translate([0, box_y_center, chassis_top_z - 2.0]) {
+                translate([0, box_y_center, chassis_top_z - 2.0])
                     cube([W_belly + 6.0, L_belly + 4.0, 4.0], center = true);
-                }
 
-                // Bản lề sườn trái (X = -W_belly/2)
+                // Bản lề sườn trái
                 for (hy = [box_y_center - 40.0, box_y_center + 40.0]) {
                     translate([-W_belly/2 - 3.5, hy, chassis_top_z + 4.0])
                         rotate([90, 0, 0]) cylinder(d = 10.0, h = 18.0, center = true);
                 }
 
-                // Ngàm khóa sườn phải (X = +W_belly/2)
+                // Ngàm khóa sườn phải
                 translate([W_belly/2 + 3.0, box_y_center, chassis_top_z - 4.0]) {
                     difference() {
                         cube([10.0, 42.0, 12.0], center = true);
@@ -514,27 +574,39 @@ module Module_1_Central_Belly_Hull() {
                     }
                 }
 
-                // 4 Chốt mộng định vị ghép nối mặt trước & mặt sau (Male Alignment Tenons)
-                for (sx = [-W_corridor/2 + 15, W_corridor/2 - 15]) {
-                    // Trước (Y = y_front_mount)
-                    translate([sx, y_front_mount + 2.5, (chassis_top_z + side_wall_z0)/2])
-                        rotate([90, 0, 0]) cylinder(d = 6.0, h = 5.0, center = true);
-                    // Sau (Y = y_rear_mount)
-                    translate([sx, y_rear_mount - 2.5, (chassis_top_z + side_wall_z0)/2])
-                        rotate([90, 0, 0]) cylinder(d = 6.0, h = 5.0, center = true);
+                // [CƠ CẤU 1] 4 MỘNG MANG CÁ ĐỰC ĐỨNG (MALE DOVETAILS)
+                // 2 Mộng phía trước hướng về Module 2
+                for (sx = [-55.0, 55.0]) {
+                    translate([sx, y_front_mount, (chassis_top_z + side_wall_z0)/2])
+                        rotate([0, 0, 0])
+                        Dovetail_Tenon_Vertical(w_base = 12.0, w_tip = 18.0, depth = 6.0, height = 75.0);
+                }
+                // 2 Mộng phía sau hướng về Module 3
+                for (sx = [-55.0, 55.0]) {
+                    translate([sx, y_rear_mount, (chassis_top_z + side_wall_z0)/2])
+                        rotate([0, 0, 180])
+                        Dovetail_Tenon_Vertical(w_base = 12.0, w_tip = 18.0, depth = 6.0, height = 75.0);
+                }
+
+                // [CƠ CẤU 3] 4 RAY TRƯỢT GÀI VÈ GIÁP HÔNG (SLIDE-IN FENDER RAILS)
+                for (sx = [-1, 1]) {
+                    for (fy = [y_front_mount + 15, y_rear_mount - 15 + L_belly]) {
+                        translate([sx * (W_belly/2 - 2.0), fy, chassis_top_z - 8.0])
+                            rotate([0, sx * 90, 0])
+                            cylinder(d = 8.0, h = 6.0, center = true);
+                    }
                 }
             }
 
-            // Khoét rỗng thùng ruột khoang bụng
-            translate([0, box_y_center, side_wall_z0 + wall_t + (box_H + 5)/2]) {
+            // Khoét rỗng thùng xe
+            translate([0, box_y_center, side_wall_z0 + wall_t + (box_H + 5)/2])
                 cube([W_belly - 2*wall_t, L_belly - 2*wall_t, box_H + 5], center = true);
-            }
 
-            // Lỗ thông khoang trước & khoang sau (W=160mm x H=85mm)
+            // Cửa thông khoang trước & sau
             translate([0, y_front_mount, (chassis_top_z + side_wall_z0)/2 + 8])
-                cube([W_corridor - 2*wall_t - 4, 20.0, box_H - 24], center = true);
+                cube([W_corridor - 2*wall_t - 4, 25.0, box_H - 24], center = true);
             translate([0, y_rear_mount, (chassis_top_z + side_wall_z0)/2 + 8])
-                cube([W_corridor - 2*wall_t - 4, 20.0, box_H - 24], center = true);
+                cube([W_corridor - 2*wall_t - 4, 25.0, box_H - 24], center = true);
 
             // Lỗ trục bản lề D=3.2mm
             for (hy = [box_y_center - 40.0, box_y_center + 40.0]) {
@@ -542,11 +614,21 @@ module Module_1_Central_Belly_Hull() {
                     rotate([90, 0, 0]) cylinder(d = 3.2, h = 30.0, center = true);
             }
 
-            // 8 Lỗ ốc M3 bắt ghép mặt bích Trước & Sau
-            for (sx = [-W_corridor/2 + 10, W_corridor/2 - 10]) {
+            // [CƠ CẤU 2] 8 HỐC TÁN LỤC GIÁC M3 ÂM CHÌM (CAPTIVE NUT POCKETS)
+            // 4 Hốc mặt bích trước
+            for (sx = [-W_corridor/2 + 12, W_corridor/2 - 12]) {
                 for (sz = [side_wall_z0 + 20, chassis_top_z - 20]) {
-                    translate([sx, y_front_mount, sz]) rotate([90, 0, 0]) cylinder(d=hole_screw_d, h=25, center=true);
-                    translate([sx, y_rear_mount, sz])  rotate([90, 0, 0]) cylinder(d=hole_screw_d, h=25, center=true);
+                    translate([sx, y_front_mount - wall_t - 1.5, sz])
+                        rotate([90, 0, 0])
+                        M3_Nut_Pocket_Slot(depth = 16.0);
+                }
+            }
+            // 4 Hốc mặt bích sau
+            for (sx = [-W_corridor/2 + 12, W_corridor/2 - 12]) {
+                for (sz = [side_wall_z0 + 20, chassis_top_z - 20]) {
+                    translate([sx, y_rear_mount + wall_t + 1.5, sz])
+                        rotate([-90, 0, 0])
+                        M3_Nut_Pocket_Slot(depth = 16.0);
                 }
             }
         }
@@ -576,8 +658,9 @@ module Module_1_Central_Belly_Hull() {
 
 // ------------------------------------------------------------------------------
 // [MODULE 2] MŨI TRƯỚC & THÁP TREO TRƯỚC (FRONT BAY & SUSPENSION TOWERS)
-// Kích thước: 176mm x 95mm x 109mm (In cực dễ trên mọi bàn in)
+// Kích thước: 176mm x 95mm x 109mm
 // Màu: Cyber Orange [0.95, 0.42, 0.12]
+// Cơ cấu: 2 Rãnh Âm Mang Cá Đứng + 4 Lỗ Bắt Bulông M3 Mặt Bích
 // ------------------------------------------------------------------------------
 module Module_2_Front_Bay() {
     color([0.95, 0.42, 0.12]) {
@@ -603,11 +686,11 @@ module Module_2_Front_Bay() {
                         ]);
                 }
 
-                // 2 Cụm Gá Tháp Treo Đúc Liền
+                // 2 Cụm Gá Tháp Treo Trước Đúc Liền
                 translate([-suspension_X, -base_L/2 - arm_L, 0]) mirror([1, 0, 0]) Chassis_Mount_Station_Geometry();
                 translate([suspension_X, -base_L/2 - arm_L, 0])  Chassis_Mount_Station_Geometry();
 
-                // Mặt bích ghép nối với Module 1
+                // Mặt bích tăng cứng liên kết
                 translate([0, y_front_mount + flange_t/2, (chassis_top_z + side_wall_z0)/2])
                     cube([W_corridor, flange_t, box_H], center = true);
             }
@@ -632,20 +715,27 @@ module Module_2_Front_Bay() {
                 }
             }
 
-            // 2 Hốc âm mộng định vị đón Module 1 (Female Mortises)
-            for (sx = [-W_corridor/2 + 15, W_corridor/2 - 15]) {
-                translate([sx, y_front_mount, (chassis_top_z + side_wall_z0)/2])
-                    rotate([90, 0, 0]) cylinder(d = 6.4, h = 12.0, center = true);
+            // [CƠ CẤU 1] 2 RÃNH ÂM MANG CÁ ĐỨNG ĐÓN MỘNG MODULE 1 (FEMALE DOVETAILS)
+            for (sx = [-55.0, 55.0]) {
+                translate([sx, y_front_mount - 0.1, (chassis_top_z + side_wall_z0)/2])
+                    rotate([0, 0, 0])
+                    Dovetail_Mortise_Vertical(w_base = 12.6, w_tip = 18.6, depth = 6.4, height = 78.0);
             }
 
-            // 4 Lỗ ốc M3 ghép mặt bích
-            for (sx = [-W_corridor/2 + 10, W_corridor/2 - 10]) {
+            // [CƠ CẤU 2] 4 LỖ XUYÊN BULÔNG M3 MẶT BÍCH
+            for (sx = [-W_corridor/2 + 12, W_corridor/2 - 12]) {
                 for (sz = [side_wall_z0 + 20, chassis_top_z - 20]) {
-                    translate([sx, y_front_mount, sz]) rotate([90, 0, 0]) cylinder(d=hole_screw_d, h=25, center=true);
+                    translate([sx, y_front_mount + 10.0, sz])
+                        rotate([90, 0, 0])
+                        cylinder(d = hole_screw_d, h = 30.0, center = true);
+                    // Hốc vát mép đầu bulông chìm
+                    translate([sx, y_front_mount + flange_t + 1.0, sz])
+                        rotate([90, 0, 0])
+                        cylinder(d = 6.2, h = 8.0, center = true);
                 }
             }
 
-            // Khe gió khí động học mũi trước (Louver Vents)
+            // Khe gió khí động học (Louver Vents)
             for (vy = [-55, -45, -35]) {
                 translate([W_corridor/2, vy, 40.0]) rotate([0, 30, 0]) cube([12.0, 6.0, 2.5], center=true);
                 translate([-W_corridor/2, vy, 40.0]) rotate([0, -30, 0]) cube([12.0, 6.0, 2.5], center=true);
@@ -658,6 +748,7 @@ module Module_2_Front_Bay() {
 // [MODULE 3] ĐUÔI SAU & THÁP TREO SAU (REAR BAY & SUSPENSION TOWERS)
 // Kích thước: 176mm x 95mm x 109mm
 // Màu: Cyber Orange [0.95, 0.42, 0.12]
+// Cơ cấu: 2 Rãnh Âm Mang Cá Đứng + 4 Lỗ Bắt Bulông M3 Mặt Bích
 // ------------------------------------------------------------------------------
 module Module_3_Rear_Bay() {
     color([0.95, 0.42, 0.12]) {
@@ -688,7 +779,7 @@ module Module_3_Rear_Bay() {
                 translate([suspension_X, box_y_center * 2 - (-base_L/2 - arm_L), 0])
                     mirror([0, 1, 0]) Chassis_Mount_Station_Geometry();
 
-                // Mặt bích ghép nối với Module 1
+                // Mặt bích tăng cứng
                 translate([0, y_rear_mount - flange_t/2, (chassis_top_z + side_wall_z0)/2])
                     cube([W_corridor, flange_t, box_H], center = true);
             }
@@ -712,16 +803,22 @@ module Module_3_Rear_Bay() {
                 }
             }
 
-            // 2 Hốc âm mộng định vị
-            for (sx = [-W_corridor/2 + 15, W_corridor/2 - 15]) {
-                translate([sx, y_rear_mount, (chassis_top_z + side_wall_z0)/2])
-                    rotate([90, 0, 0]) cylinder(d = 6.4, h = 12.0, center = true);
+            // [CƠ CẤU 1] 2 RÃNH ÂM MANG CÁ ĐỨNG ĐÓN MỘNG MODULE 1
+            for (sx = [-55.0, 55.0]) {
+                translate([sx, y_rear_mount + 0.1, (chassis_top_z + side_wall_z0)/2])
+                    rotate([0, 0, 180])
+                    Dovetail_Mortise_Vertical(w_base = 12.6, w_tip = 18.6, depth = 6.4, height = 78.0);
             }
 
-            // 4 Lỗ ốc M3 ghép mặt bích
-            for (sx = [-W_corridor/2 + 10, W_corridor/2 - 10]) {
+            // [CƠ CẤU 2] 4 LỖ XUYÊN BULÔNG M3 MẶT BÍCH
+            for (sx = [-W_corridor/2 + 12, W_corridor/2 - 12]) {
                 for (sz = [side_wall_z0 + 20, chassis_top_z - 20]) {
-                    translate([sx, y_rear_mount, sz]) rotate([90, 0, 0]) cylinder(d=hole_screw_d, h=25, center=true);
+                    translate([sx, y_rear_mount - 10.0, sz])
+                        rotate([90, 0, 0])
+                        cylinder(d = hole_screw_d, h = 30.0, center = true);
+                    translate([sx, y_rear_mount - flange_t - 1.0, sz])
+                        rotate([90, 0, 0])
+                        cylinder(d = 6.2, h = 8.0, center = true);
                 }
             }
         }
@@ -730,8 +827,9 @@ module Module_3_Rear_Bay() {
 
 // ------------------------------------------------------------------------------
 // [MODULE 4] 4 TẤM VÈ GIÁP NÓC HÔNG (MODULAR FENDER DECKS)
-// Kích thước: 105mm x 94mm x 42mm (Rất nhỏ gọn, in cực nhanh)
+// Kích thước: 105mm x 94mm x 42mm
 // Màu: Xám Kim Loại Gunmetal [0.45, 0.48, 0.52]
+// Cơ cấu: Rãnh Trượt Gài Khóa Clip-On M3 Chống Rung
 // ------------------------------------------------------------------------------
 module Single_Fender_Deck_Piece() {
     fender_in_x  = 88.0;   
@@ -758,11 +856,23 @@ module Single_Fender_Deck_Piece() {
                         translate([0, 0, 1.5]) cube([22.0, 3.0, 0.1], center=true);
                     }
             }
+
+            // Gờ rãnh trượt Clip-on gài vào khung xe
+            translate([fender_in_x + 6.0, -95.0 + 15.0, chassis_top_z - fender_thick - 5.0]) {
+                difference() {
+                    cube([12.0, 20.0, 10.0], center = true);
+                    translate([-4.0, 0, 0]) cube([6.0, 22.0, 12.0], center = true);
+                }
+            }
         }
 
         // Vòm bánh xe
         translate([fender_out_x - fender_thick - 1, 0, motor_center_z])
             rotate([0, 90, 0]) cylinder(r = arch_R, h = fender_thick + 4);
+
+        // Lỗ ốc M3 khóa vè vào khung
+        translate([fender_in_x + 6.0, -95.0 + 15.0, chassis_top_z - fender_thick - 5.0])
+            rotate([0, 90, 0]) cylinder(d = hole_screw_d, h = 20.0, center = true);
     }
 }
 
@@ -776,9 +886,10 @@ module Module_4_All_Fenders() {
 }
 
 // ------------------------------------------------------------------------------
-// [MODULE 5] NẮP NÓC XE MỞ BẢN LÈ V2 (HINGED CANOPY ROOF LID)
-// Kích thước: 350mm x 320mm x 15mm (Dạng tấm dẹt mỏng, in vừa trọn 320x390)
+// [MODULE 5] NẮP NÓC XE MỞ BẢN LỀ V2 (HINGED CANOPY ROOF LID)
+// Kích thước: 350mm x 320mm x 15mm
 // Màu: Xám Titan [0.30, 0.33, 0.38] + Chữ SUMO V2 Trắng + Tay Nắm Cam
+// Cơ cấu: Bản Lề Kép Trục Thép D=3mm + Ngàm Khóa Tự Bật Quick-Latch
 // ------------------------------------------------------------------------------
 module Module_5_Hinged_Roof_Lid() {
     lid_thick   = 3.5;
@@ -888,31 +999,55 @@ module Module_5_Hinged_Roof_Lid() {
 }
 
 // ==============================================================================
+// HIỂN THỊ CÁC BULÔNG THÉP M3 LIÊN KẾT GIỮA CÁC MODULE (FASTENER HARDWARE)
+// ==============================================================================
+module Fastener_Hardware_Assembly() {
+    if (show_fasteners) {
+        // 4 Bulông M3 liên kết Mũi Trước (Module 2) vào Thùng Bụng (Module 1)
+        for (sx = [-W_corridor/2 + 12, W_corridor/2 - 12]) {
+            for (sz = [side_wall_z0 + 20, chassis_top_z - 20]) {
+                translate([sx, y_front_mount + flange_t + 1.0, sz])
+                    rotate([90, 0, 0])
+                    Render_M3_Bolt(length = 16.0);
+            }
+        }
+        // 4 Bulông M3 liên kết Đuôi Sau (Module 3) vào Thùng Bụng (Module 1)
+        for (sx = [-W_corridor/2 + 12, W_corridor/2 - 12]) {
+            for (sz = [side_wall_z0 + 20, chassis_top_z - 20]) {
+                translate([sx, y_rear_mount - flange_t - 1.0, sz])
+                    rotate([-90, 0, 0])
+                    Render_M3_Bolt(length = 16.0);
+            }
+        }
+    }
+}
+
+// ==============================================================================
 // ĐIỀU KHIỂN RENDER THEO CÁC CHẾ ĐỘ XUẤT (VIEW SELECTION)
 // ==============================================================================
 
 if (part_select == "module_1_belly") {
-    // Chỉ xuất Module 1 (Khoang bụng)
+    // Xuất riêng Module 1 (Khoang bụng)
     Module_1_Central_Belly_Hull();
 
 } else if (part_select == "module_2_front") {
-    // Chỉ xuất Module 2 (Mũi trước)
+    // Xuất riêng Module 2 (Mũi trước)
     Module_2_Front_Bay();
 
 } else if (part_select == "module_3_rear") {
-    // Chỉ xuất Module 3 (Đuôi sau)
+    // Xuất riêng Module 3 (Đuôi sau)
     Module_3_Rear_Bay();
 
 } else if (part_select == "module_4_fenders") {
-    // Chỉ xuất 4 Vè Giáp Hông
+    // Xuất riêng 4 Vè Giáp Hông
     Module_4_All_Fenders();
 
 } else if (part_select == "module_5_roof") {
-    // Chỉ xuất Nắp Nóc Xe
+    // Xuất riêng Nắp Nóc Xe
     Module_5_Hinged_Roof_Lid();
 
 } else if (part_select == "module_6_suspension") {
-    // Chỉ xuất 1 Cụm Treo & Bánh
+    // Xuất riêng 1 Cụm Treo & Bánh
     Single_Suspension_Corner_Module();
 
 } else if (part_select == "print_chassis_parts") {
@@ -927,7 +1062,7 @@ if (part_select == "module_1_belly") {
         Module_3_Rear_Bay();
 
 } else if (part_select == "exploded_modules") {
-    // Bóc tách trực quan các module rời nhau
+    // Bóc tách trực quan thấy rõ rãnh mang cá & cơ cấu ghép
     Module_1_Central_Belly_Hull();
 
     translate([0, exploded_gap, 0])
@@ -955,23 +1090,30 @@ if (part_select == "module_1_belly") {
     translate([suspension_X + exploded_gap, box_y_center * 2, 0])
         mirror([1, 0, 0]) mirror([0, 1, 0]) Single_Suspension_Corner_Module();
 
-} else { // "all_assembled" (Mặc định: Toàn bộ xe ghép màu đa sắc hoàn hảo)
-    // 1. Khoang bụng (Xám đen)
+    // Hiển thị bulông tách lớp
+    translate([0, exploded_gap * 1.4, 0])
+        Fastener_Hardware_Assembly();
+
+} else { // "all_assembled" (Mặc định: Toàn bộ xe ghép mộng & bulông hoàn chỉnh)
+    // 1. Khoang bụng (Xám đen nhám)
     Module_1_Central_Belly_Hull();
 
-    // 2. Mũi trước (Cam thể thao)
+    // 2. Mũi trước (Cam thể thao - Ghép mộng mang cá)
     Module_2_Front_Bay();
 
-    // 3. Đuôi sau (Cam thể thao)
+    // 3. Đuôi sau (Cam thể thao - Ghép mộng mang cá)
     Module_3_Rear_Bay();
 
-    // 4. 4 Vè giáp nóc hông (Gunmetal)
+    // 4. 4 Vè giáp nóc hông (Gunmetal - Gài rãnh trượt)
     Module_4_All_Fenders();
 
     // 5. Nắp nóc xe mở bản lề (Titan + Trắng + Cam)
     Module_5_Hinged_Roof_Lid();
 
-    // 6. 4 Cụm bánh xe & Hệ treo 4 góc
+    // 6. Bulông thép M3 liên kết cơ khí
+    Fastener_Hardware_Assembly();
+
+    // 7. 4 Cụm bánh xe & Hệ treo 4 góc
     translate([-suspension_X, 0, 0])
         Single_Suspension_Corner_Module();
 
